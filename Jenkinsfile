@@ -9,6 +9,7 @@ pipeline {
       environment {
         appdir = "${env.WORKSPACE}"
         conffile = 'performance3.conf'
+        WORK_DIR = "${env.WORKSPACE}/target/job-server"
       }
       steps {
         container('sbt-libhadoop') {

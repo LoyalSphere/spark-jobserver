@@ -1,6 +1,8 @@
 #!/bin/bash -ue
 # Script for packaging all the job server files to .tar.gz for Mesos or other single-image deploys
-WORK_DIR=/tmp/job-server
+if [ -z "$WORK_DIR" ]; then
+  WORK_DIR=/tmp/job-server
+fi
 
 if [ "$#" -ne 1 ]; then
   echo "Syntax: ${0} <Environment>"
