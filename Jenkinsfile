@@ -6,6 +6,10 @@ pipeline {
   }
   stages {
     stage('server_package') {
+      environment {
+        appdir = env.WORKSPACE
+        conffile = 'performance3.conf'
+      }
       steps {
         container('sbt-libhadoop') {
           sh 'bin/server_package.sh performance3'
