@@ -20,6 +20,10 @@ pipeline {
   }
   post {
     success {
+      archiveArtifacts artifacts: 'target/job-server/job-server.tar.gz',
+                       fingerprint: true,
+                       onlyIfSuccessful: true
+
       mail subject: "Build is ready: ${currentBuild.fullDisplayName}",
               body: "Get artifacts here: ${env.BUILD_URL}",
               to: 'edward.samson@stellarloyalty.com'
