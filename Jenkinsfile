@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('server_package') {
       environment {
-        appdir = env.WORKSPACE
+        appdir = "${env.WORKSPACE}"
         conffile = 'performance3.conf'
       }
       steps {
