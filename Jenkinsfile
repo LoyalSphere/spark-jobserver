@@ -8,7 +8,7 @@ pipeline {
     stage('server_package') {
       steps {
         container('sbt-libhadoop') {
-          sh 'bin/server_package.sh'
+          sh 'bin/server_package.sh performance3'
         }
       }
     }
