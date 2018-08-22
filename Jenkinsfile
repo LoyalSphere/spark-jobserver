@@ -24,9 +24,9 @@ pipeline {
                        fingerprint: true,
                        onlyIfSuccessful: true
 
-      mail subject: "Build is ready: ${currentBuild.fullDisplayName}",
-              body: "Get artifacts here: ${env.BUILD_URL}",
-              to: 'edward.samson@stellarloyalty.com'
+      emailext subject: "Build is ready: ${currentBuild.fullDisplayName}",
+               body: "Get artifacts here: ${env.BUILD_URL}",
+               to: 'edward.samson@stellarloyalty.com, lucky.valbuena@stellarloyalty.com'
     }
 
     regression {
