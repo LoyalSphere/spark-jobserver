@@ -30,7 +30,7 @@ pipeline {
               sh 'sbt job-server-tests/assembly'
             }
 
-            archiveArtifacts artifacts: 'job-server-tests/target/**/*.jar',
+            archiveArtifacts artifacts: 'job-server-tests/target/**/*-assembly-*.jar',
                              fingerprint: true,
                              onlyIfSuccessful: true
           }
