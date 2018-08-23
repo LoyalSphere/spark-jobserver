@@ -5,25 +5,41 @@ pipeline {
     }
   }
   stages {
-    stage('server_package') {
-      environment {
-        appdir = "${env.WORKSPACE}"
-        conffile = 'performance3.conf'
-        WORK_DIR = "${env.WORKSPACE}/target/job-server"
-      }
-      steps {
-        container('sbt-libhadoop') {
-          sh 'bin/server_package.sh performance3'
+    stage('Build') {
+      parallel {
+        stage('server_package') {
+          environment {
+            appdir = "${env.WORKSPACE}"
+            conffile = 'performance3.conf'
+            WORK_DIR = "${env.WORKSPACE}/target/job-server"
+          }
+
+          steps {
+            container('sbt-libhadoop') {
+              sh 'bin/server_package.sh performance3'
+            }
+
+            archiveArtifacts artifacts: 'target/job-server/job-server.tar.gz',
+                             fingerprint: true,
+                             onlyIfSuccessful: true
+          }
+        }
+        stage('job-server-tests assembly') {
+          steps {
+            container('sbt-libhadoop') {
+              sh 'sbt job-server-tests/assembly'
+            }
+
+            archiveArtifacts artifacts: 'job-server-tests/target/**/*.jar',
+                             fingerprint: true,
+                             onlyIfSuccessful: true
+          }
         }
       }
     }
   }
   post {
     success {
-      archiveArtifacts artifacts: 'target/job-server/job-server.tar.gz',
-                       fingerprint: true,
-                       onlyIfSuccessful: true
-
       emailext subject: "Build is ready: ${currentBuild.fullDisplayName}",
                body: "Get artifacts here: ${env.BUILD_URL}",
                to: 'edward.samson@stellarloyalty.com, lucky.valbuena@stellarloyalty.com'
