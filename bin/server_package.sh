@@ -1,6 +1,6 @@
 #!/bin/bash -ue
 # Script for packaging all the job server files to .tar.gz for Mesos or other single-image deploys
-if [ -z "$WORK_DIR" ]; then
+if [ -z "${WORK_DIR+x}" ]; then
   WORK_DIR=/tmp/job-server
 fi
 
