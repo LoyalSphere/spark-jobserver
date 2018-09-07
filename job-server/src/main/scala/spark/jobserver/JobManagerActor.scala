@@ -216,15 +216,15 @@ class JobManagerActor(daoActor: ActorRef, supervisorActorAddress: String, contex
 
       try {
         // Load side jars first in case the ContextFactory comes from it
-//        getSideJars(contextConfig).foreach { jarUri =>
+        getSideJars(contextConfig).foreach { jarUri =>
 //          jarLoader.addURL(new URL(convertJarUriSparkToJava(jarUri)))
-//        }
+        }
         factory = getContextFactory()
         jobContext = factory.makeContext(config, contextConfig, contextName)
         jobContext.sparkContext.addSparkListener(sparkListener)
         sparkEnv = SparkEnv.get
         jobCache = new JobCacheImpl(jobCacheSize, daoActor, jobContext.sparkContext, jarLoader)
-//        getSideJars(contextConfig).foreach { jarUri => jobContext.sparkContext.addJar(jarUri) }
+        getSideJars(contextConfig).foreach { jarUri => jobContext.sparkContext.addJar(jarUri) }
         sender ! Initialized(contextName, resultActor)
       } catch {
         case t: Throwable =>
