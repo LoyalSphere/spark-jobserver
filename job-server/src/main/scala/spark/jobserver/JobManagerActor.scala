@@ -217,7 +217,7 @@ class JobManagerActor(daoActor: ActorRef, supervisorActorAddress: String, contex
       try {
         // Load side jars first in case the ContextFactory comes from it
         getSideJars(contextConfig).foreach { jarUri =>
-          jarLoader.addURL(new URL(convertJarUriSparkToJava(jarUri)))
+//          jarLoader.addURL(new URL(convertJarUriSparkToJava(jarUri)))
         }
         factory = getContextFactory()
         jobContext = factory.makeContext(config, contextConfig, contextName)
