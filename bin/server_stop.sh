@@ -12,7 +12,12 @@ get_abs_script_path
 
 . $appdir/setenv.sh
 
-pidFilePath=$appdir/$PIDFILE
+if [ -z "$PID_DIR" ]; then
+  pidFilePath=$appdir/$PIDFILE
+else
+  mkdir -p "$PID_DIR"
+  pidFilePath="$PID_DIR/$PIDFILE"
+fi
 
 if [ ! -f "$pidFilePath" ]; then
   echo 'Job server not running'

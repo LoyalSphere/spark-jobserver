@@ -12,6 +12,7 @@ JMX_PORT=9999
 #SSH_KEY=/path/to/keyfile.pem
 INSTALL_DIR=/opt/build/sjs
 LOG_DIR=/var/log/spark-job-server
+PID_DIR=/var/run/spark-job-server
 PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
 SPARK_VERSION=2.3.0
