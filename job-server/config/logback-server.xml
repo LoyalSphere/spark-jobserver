@@ -22,7 +22,7 @@
         </rollingPolicy>
 
     <encoder>
-      <pattern>[%date{ISO8601}] %-5level %logger{20} [%X{jobId}] [%X{akkaSource}] - %msg%n</pattern>
+      <pattern>[%date{ISO8601}] %-5level %logger [%X{jobId}] [%X{akkaSource}] - %msg%n</pattern>
     </encoder>
     </appender>
     <root level="info">
