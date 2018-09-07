@@ -17,7 +17,7 @@ PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
 SPARK_VERSION=2.3.0
 MAX_DIRECT_MEMORY=1G
-SPARK_HOME=/usr/hdp/current/spark2-client/
+SPARK_HOME=/usr/hdp/current/spark2-client
 SPARK_CONF_DIR=$SPARK_HOME/conf
 # Only needed for Mesos deploys
 # SPARK_EXECUTOR_URI=/home/spark/spark-1.6.0.tar.gz
