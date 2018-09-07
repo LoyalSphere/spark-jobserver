@@ -22,7 +22,7 @@ set -a
 . $appdir/setenv.sh
 set +a
 
-GC_OPTS_SERVER="$GC_OPTS_BASE -Xloggc:$appdir/$GC_OUT_FILE_NAME"
+GC_OPTS_SERVER="$GC_OPTS_BASE -Xloggc:$LOG_DIR/$GC_OUT_FILE_NAME"
 
 MAIN="spark.jobserver.JobServer"
 
