@@ -14,8 +14,8 @@ class ContextURLClassLoader(urls: Array[URL], parent: ClassLoader)
 
   override def addURL(url: URL) {
     if (!getURLs.contains(url)) {
-      super.addURL(url)
-      logger.info("Added URL " + url + " to ContextURLClassLoader")
+//      super.addURL(url)
+      logger.info("NOT ADDING URL " + url + " to ContextURLClassLoader")
     }
   }
 }
