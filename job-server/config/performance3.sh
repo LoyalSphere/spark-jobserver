@@ -10,7 +10,7 @@ APP_GROUP=spark
 JMX_PORT=9999
 # optional SSH Key to login to deploy server
 #SSH_KEY=/path/to/keyfile.pem
-INSTALL_DIR=/opt/sjs
+INSTALL_DIR=/opt/build/sjs
 LOG_DIR=/var/log/spark-job-server
 PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
