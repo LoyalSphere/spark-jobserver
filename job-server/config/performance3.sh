@@ -47,3 +47,8 @@ SPARK_LAUNCHER_VERBOSE=0
 # MANAGER_EXTRA_JAVA_OPTIONS=
 # MANAGER_EXTRA_SPARK_CONFS="spark.yarn.submit.waitAppCompletion=false|spark.files=$appdir/log4jcluster.properties,$conffile"
 # MANAGER_LOGGING_OPTS="-Dlog4j.configuration=log4j-cluster.properties"
+
+HBASE_QUORUM=""
+S3_BUCKET_NAME=""
+DD_ENVS_KEY=""
+DD_INSTANCES_KEY=""
