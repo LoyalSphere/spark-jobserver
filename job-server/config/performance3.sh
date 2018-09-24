@@ -52,3 +52,10 @@ HBASE_QUORUM=""
 S3_BUCKET_NAME=""
 DD_ENVS_KEY=""
 DD_INSTANCES_KEY=""
+
+# For MySQL Database Backend for DAO storage
+# REF for creating user: https://github.com/LoyalSphere/spark-jobserver/tree/performance3-build#configuring-spark-jobserver-mysql-database-backend
+MYSQL_HOST=""
+MYSQL_USERNAME=""
+MYSQL_PASSWORD=""
+MYSQL_SCHEMA=""
