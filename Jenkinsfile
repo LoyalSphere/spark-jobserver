@@ -42,9 +42,9 @@ pipeline {
     success {
       emailext subject: "Build is ready: ${currentBuild.fullDisplayName}",
                body: "Get artifacts here: ${env.BUILD_URL}",
-               to: 'edward.samson@stellarloyalty.com, lucky.valbuena@stellarloyalty.com'
+               to: 'lucky.valbuena@stellarloyalty.com'
       build job: 'test_lucky', parameters: [
-        string(name: 'FROM_BUILD_NO', value: '$BUILD_NUMBER')
+        string(name: 'FROM_BUILD_NO', value: "${env.BUILD_NUMBER}")
       ]
     }
 
