@@ -45,6 +45,7 @@ pipeline {
                to: 'lucky.valbuena@stellarloyalty.com'
       build job: 'test_lucky', parameters: [
         string(name: 'FROM_BUILD_NO', value: "${env.BUILD_NUMBER}")
+        string(name: 'FROM_BUILD_URL', value: "${env.BUILD_URL}")
       ]
     }
 
