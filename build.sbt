@@ -253,7 +253,7 @@ lazy val commonSettings = Defaults.coreDefaultSettings ++ dirSettings ++ Seq(
   runScalaStyle := {
     scalastyle.in(Compile).toTask("").value
   },
-  (compile in Compile) := (compile in Compile).dependsOn(runScalaStyle).value,
+//  (compile in Compile) := (compile in Compile),
 
   // In Scala 2.10, certain language features are disabled by default, such as implicit conversions.
   // Need to pass in language options or import scala.language.* to enable them.
