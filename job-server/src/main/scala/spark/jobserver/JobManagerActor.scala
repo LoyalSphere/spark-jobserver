@@ -374,7 +374,7 @@ class JobManagerActor(daoActor: ActorRef, supervisorActorAddress: String, contex
           jobContext.sparkContext.addJar(jarUri)
         }
       }
-      startJobInternal(appName, classPath, jobConfig, events, jobContext, sparkEnv, existingJobInfo)
+      startJobInternal2(appName, classPath, jobConfig, events, jobContext, sparkEnv, existingJobInfo, sender)
     }
 
     case StopContextAndShutdown => {
@@ -488,6 +488,63 @@ class JobManagerActor(daoActor: ActorRef, supervisorActorAddress: String, contex
       case Failure(t) =>
         logger.error(s"Failed to get context $contextId from DAO", t)
         failureCallback
+    }
+  }
+
+  def startJobInternal2(appName: String,
+                       classPath: String,
+                       jobConfig: Config,
+                       events: Set[Class[_]],
+                       jobContext: ContextLike,
+                       sparkEnv: SparkEnv,
+                       existingJobInfo: Option[JobInfo],
+                       subscriber: ActorRef): Future[Any] = {
+    import akka.util.Timeout
+
+    def failed(msg: Any): Future[Any] = {
+      subscriber ! msg
+      postEachJob()
+      Future.successful()
+    }
+
+    (daoActor ? JobDAOActor.GetLastBinaryInfo(appName))(daoAskTimeout).
+      mapTo[JobDAOActor.LastBinaryInfo].flatMap{
+      result =>
+        val binInfo = result.lastBinaryInfo
+
+        if (binInfo.isEmpty) {
+          failed(NoSuchApplication)
+        }
+        else {
+          val binaryInfo = binInfo.get
+
+          val (jobId, startDateTime) = existingJobInfo match {
+            case Some(info) =>
+              logger.info(s"Restarting a previously terminated job with id ${info.jobId}" +
+                s" and context ${info.contextName}")
+              (info.jobId, info.startTime)
+            case None =>
+              logger.info(s"Creating new JobId for current job")
+              (java.util.UUID.randomUUID().toString, DateTime.now())
+          }
+
+          val jobContainer = factory.loadAndValidateJob(appName, binaryInfo.uploadTime,
+            classPath, jobCache) match {
+            case Good(container) => container
+            case Bad(JobClassNotFound) => return failed(NoSuchClass)
+            case Bad(JobWrongType) => return failed(WrongJobType)
+            case Bad(JobLoadError(ex)) => return failed(JobLoadingError(ex))
+          }
+
+          // Automatically subscribe the sender to events so it starts getting them right away
+          resultActor ! Subscribe(jobId, subscriber, events)
+          statusActor ! Subscribe(jobId, subscriber, events)
+
+          val jobInfo = JobInfo(jobId, contextId, contextName, binaryInfo, classPath,
+            JobStatus.Running, startDateTime, None, None)
+
+          getJobFuture(jobContainer, jobInfo, jobConfig, subscriber, jobContext, sparkEnv)
+        }
     }
   }
 

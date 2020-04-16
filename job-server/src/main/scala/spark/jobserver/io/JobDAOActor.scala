@@ -37,6 +37,7 @@ object JobDAOActor {
   case class GetJobConfig(jobId: String) extends JobDAORequest
   case class CleanContextJobInfos(contextId: String, endTime: DateTime)
 
+  case class GetLastBinaryInfo(appName: String) extends JobDAORequest
   case class GetLastUploadTimeAndType(appName: String) extends JobDAORequest
   case class SaveContextInfo(contextInfo: ContextInfo)  extends JobDAORequest
   case class UpdateContextById(contextId: String, attributes: ContextModifiableAttributes)
@@ -51,6 +52,7 @@ object JobDAOActor {
   case class BinaryPath(binPath: String) extends JobDAOResponse
   case class JobInfos(jobInfos: Seq[JobInfo]) extends JobDAOResponse
   case class JobConfig(jobConfig: Option[Config]) extends JobDAOResponse
+  case class LastBinaryInfo(lastBinaryInfo: Option[BinaryInfo]) extends JobDAOResponse
   case class LastUploadTimeAndType(uploadTimeAndType: Option[(DateTime, BinaryType)]) extends JobDAOResponse
   case class ContextResponse(contextInfo: Option[ContextInfo]) extends JobDAOResponse
   case class ContextInfos(contextInfos: Seq[ContextInfo]) extends JobDAOResponse
