@@ -27,7 +27,7 @@ import spark.jobserver.util.{ContextForcefulKillTimeout, StandaloneForcefulKill}
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import scala.concurrent.duration._
-import org.spark_project.guava.annotations.VisibleForTesting
+import org.sparkproject.guava.annotations.VisibleForTesting
 import spark.jobserver.io.JobDAOActor.{BinaryInfosForCp, BinaryNotFound, GetBinaryInfosForCpFailed}
 
 object JobManagerActor {

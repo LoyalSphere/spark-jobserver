@@ -1,16 +1,16 @@
 import scala.util.Properties.isJavaAtLeast
 
 object Versions {
-  lazy val spark = sys.env.getOrElse("SPARK_VERSION", "2.4.4")
+  lazy val spark = sys.env.getOrElse("SPARK_VERSION", "3.2.1.7.2.15.0-147")
 
-  lazy val akka = "2.5.32"
+  lazy val akka = "2.6.10"
   lazy val akkaHttp = "10.1.13"
   lazy val akkaHttpCors = "0.4.2"
   lazy val cassandra = "3.3.0"
   lazy val commons = "1.4"
   lazy val derby = "10.12.1.1"
   lazy val flyway = "3.2.1"
-  lazy val hadoop = "2.7.3"
+  lazy val hadoop = sys.env.getOrElse("HADOOP_VERSION", "3.1.1.7.2.15.0-147")
   lazy val h2 = "1.3.176"
   lazy val java = sys.env.getOrElse("JAVA_VERSION", "8-jdk")
   lazy val jjwt = "0.9.1"

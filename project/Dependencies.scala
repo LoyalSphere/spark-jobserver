@@ -117,5 +117,7 @@ object Dependencies {
   val repos = Seq(
     "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
     "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
+    "Cloudera Releases" at "https://repository.cloudera.com/artifactory/libs-release-local/",
+    "Cloudera Staging" at "https://repository.cloudera.com/artifactory/libs-staging-local/"
   )
 }
