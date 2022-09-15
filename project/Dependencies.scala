@@ -22,6 +22,7 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-cluster" % akka exclude("com.typesafe.akka", "akka-remote"),
     "com.typesafe.akka" %% "akka-cluster-tools" % akka,
     "com.typesafe.akka" %% "akka-actor" % akka,
+    "com.typesafe.akka" %% "akka-cluster-typed" % akka,
 
     "com.typesafe.akka" %% "akka-http" % akkaHttp,
     "com.typesafe.akka" %% "akka-http-core" % akkaHttp,
@@ -55,7 +56,10 @@ object Dependencies {
     "com.typesafe.slick" %% "slick" % slick,
     "com.h2database" % "h2" % h2,
     "org.postgresql" % "postgresql" % postgres,
-    "mysql" % "mysql-connector-java" % mysql,
+    "mysql" % "mysql-connector-java" % mysql excludeAll (
+      ExclusionRule("com.google.protobuf",
+        "protobuf-java")
+      ),
     "commons-dbcp" % "commons-dbcp" % commons,
     "org.flywaydb" % "flyway-core" % flyway
   )

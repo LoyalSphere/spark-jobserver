@@ -21,7 +21,7 @@ object Versions {
   lazy val mesos = sys.env.getOrElse("MESOS_VERSION", "1.0.0-2.0.89.ubuntu1404")
   lazy val metrics = "2.2.0"
   lazy val postgres = "9.4.1209"
-  lazy val mysql = "5.1.42"
+  lazy val mysql = "8.0.23"
   lazy val py4j = "0.10.7"
   lazy val scalaTest = "3.0.1"
   lazy val scalatic = "3.0.1"
