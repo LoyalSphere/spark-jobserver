@@ -119,6 +119,7 @@ object Dependencies {
   lazy val apiDeps = sparkDeps ++ miscDeps :+ typeSafeConfigDeps :+ scalaTestDep
 
   val repos = Seq(
+    "Sbt repo" at "https://scala.jfrog.io/artifactory/",
     "Typesafe Repo" at "https://repo.typesafe.com/typesafe/releases/",
     "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
     "Cloudera Releases" at "https://repository.cloudera.com/artifactory/libs-release-local/",
