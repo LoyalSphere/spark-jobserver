@@ -4,20 +4,23 @@
 if [ -a "$bin"/../config/user-ec2-settings.sh ]; then
     . "$bin"/../config/user-ec2-settings.sh
 fi
+DEPLOY_HOSTS="local[*]"
+
 APP_USER=root
 APP_GROUP=root
-INSTALL_DIR=/root/job-server
+INSTALL_DIR=/var/job-server
 LOG_DIR=/var/log/job-server
 PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
-SPARK_VERSION=1.6.0
-SPARK_HOME=/root/spark
+SPARK_VERSION=3.3.2
+SPARK_HOME=/var/spark
 SPARK_CONF_DIR=$SPARK_HOME/conf
+MAX_DIRECT_MEMORY=512M
 # Only needed for Mesos deploys
-SPARK_EXECUTOR_URI=/home/spark/spark-0.8.0.tar.gz
+#PARK_EXECUTOR_URI=/home/spark/spark-0.8.0.tar.gz
 # Only needed for YARN running outside of the cluster
 # You will need to COPY these files from your cluster to the remote machine
 # Normally these are kept on the cluster in /etc/hadoop/conf
 # YARN_CONF_DIR=/pathToRemoteConf/conf
 # HADOOP_CONF_DIR=/pathToRemoteConf/conf
-SCALA_VERSION=2.12.12 # or 2.11.12
+SCALA_VERSION=2.12.15 # or 2.11.12

@@ -1,5 +1,4 @@
-resolvers += "typesafe-ivy-releases" at "https://scala.jfrog.io/artifactory/ivy-releases/"
-resolvers += "sbt-plugin-releases" at "https://scala.jfrog.io/artifactory/sbt-plugin-releases/"
+resolvers += Classpaths.sbtPluginReleases
 
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
 

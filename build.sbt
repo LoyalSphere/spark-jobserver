@@ -2,6 +2,7 @@ import com.typesafe.sbt.SbtMultiJvm.multiJvmSettings
 import com.typesafe.sbt.SbtMultiJvm.MultiJvmKeys.MultiJvm
 
 import Dependencies._
+import sbt.{File, _}
 
 updateOptions := updateOptions.value.withCachedResolution(true)
 transitiveClassifiers in Global := Seq(Artifact.SourceClassifier)
@@ -147,6 +148,7 @@ lazy val noPublishSettings = Seq(
 )
 
 lazy val dockerSettings = Seq(
+
   // Make the docker task depend on the assembly task, which generates a fat JAR file
   docker := docker.dependsOn(assembly in jobServerExtras).value,
   dockerfile in docker := {
@@ -158,16 +160,23 @@ lazy val dockerSettings = Seq(
       expose(8090)
       expose(9999) // for JMX
       env("JOBSERVER_MEMORY", "1G")
-      env("SPARK_HOME", "/spark")
-      env("HADOOP_VERSION", Versions.hadoop.slice(0,3))
+      env("HADOOP_VERSION", Versions.hadoop.slice(0,1))
       env("SPARK_VERSION", Versions.spark)
+      env("SPARK_HOME", "/var/spark")
       env("SCALA_VERSION", scalaBinaryVersion.value)
+      run("mkdir", "-p", "${SPARK_HOME}")
+
       runRaw(
         """wget --no-verbose http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
         tar -xvzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
         mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} ${SPARK_HOME} && \
         rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
         """)
+
+      //copy
+      copy(new File(sys.env.getOrElse("SJS_LOCATION", "/var/sjs")) / "job-server-extras" / "config" / "spark-defaults.conf",  "${SPARK_HOME}/conf/")
+      copy(new File(sys.env.getOrElse("SJS_LOCATION", "/var/sjs")) / "job-server-extras" / "config" / "hbase-site.xml",  "${SPARK_HOME}/conf/")
+
       copy(artifact, artifactTargetPath)
       copy(baseDirectory(_ / "bin" / "server_start.sh").value, file("app/server_start.sh"))
       copy(baseDirectory(_ / "bin" / "server_stop.sh").value, file("app/server_stop.sh"))
@@ -177,20 +186,16 @@ lazy val dockerSettings = Seq(
       copy(baseDirectory(_ / "config" / "docker.sh").value, file("app/settings.sh"))
 
       // Use a volume to persist database between container invocations
-      run("mkdir", "-p", "/database")
-      volume("/database")
+      //run("mkdir", "-p", "/database")
+      //volume("/database")
       entryPoint("app/server_start.sh")
     }
   },
   imageNames in docker := Seq(
-    sbtdocker.ImageName(namespace = Some("sparkjobserver"),
-      repository = "spark-jobserver",
+    sbtdocker.ImageName(namespace = Some("campaignmonitor"),
+      repository = "edp-spark-jobserver",
       tag = Some(
-        s"${version.value}" +
-          s".spark-${Versions.spark}" +
-          s".hadoop-${Versions.hadoop}" +
-          s".scala-${scalaBinaryVersion.value}" +
-          s".jdk-${Versions.java}")
+        s"latest")
     )
   )
 )
